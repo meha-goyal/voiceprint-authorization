@@ -14,10 +14,10 @@ verification = pretrained.SpeakerRecognition.from_hparams(
 SAMPLE_RATE = 16000
 DURATION = 3  
 ENROLL_FILE = "enrolled_user.wav"
-KEY_PHRASE = "unlock the button"
+KEY_PHRASE = "allow access"
 
 def record_audio(filename, duration=DURATION):
-    print(f"Recording for {duration} seconds. Speak: '{KEY_PHRASE}'")
+    print(f"Recording for {duration} seconds. State a command. '")
     recording = sd.rec(int(duration * SAMPLE_RATE), samplerate=SAMPLE_RATE, channels=1, dtype='int16')
     sd.wait()
     wav.write(filename, SAMPLE_RATE, recording)
@@ -32,14 +32,23 @@ def main():
         print("Enrolling user...")
         record_audio(ENROLL_FILE)
         print("Enrollment complete. Say the key phrase to unlock.")
-    else:
-        # Test speaker
+    
+    record_audio("test_input.wav")
+    matched = verify_speaker(ENROLL_FILE, "test_input.wav")
+    if matched:
+        print("Access granted!")
         record_audio("test_input.wav")
         matched = verify_speaker(ENROLL_FILE, "test_input.wav")
-        if matched:
-            print("Access granted. Button unlocked!")
+        if matched: 
+            print("Command accepted")
         else:
-            print("Access denied. Voice does not match.")
+            print("Command denied")
+    else:
+        print("Access denied. Voice does not match.")
+
+    
+
+    
 
 if __name__ == "__main__":
     main()
