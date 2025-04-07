@@ -4,3 +4,4 @@ env
 pretrained_models/
 enrolled_user.wav
 test_input.wav
+*.wav
