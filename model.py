@@ -16,7 +16,7 @@ DURATION = 3
 enrolled_speakers = []
 
 def record_audio(filename, duration=DURATION):
-    print(f"Recording for {duration} seconds. State a command.'")
+    print(f"Recording for {duration} seconds.'")
     recording = sd.rec(int(duration * SAMPLE_RATE), 
                        samplerate=SAMPLE_RATE, channels=1, 
                        dtype='int16')
@@ -48,6 +48,8 @@ def main():
 
     while (active != "n"):
         enroll_new = input('Would you like to enroll a new user? y/n')
+        if enroll_new == 'y':
+            print('To enable new enrollment, please have an authorized user verify access by stating wakeword in the next recording.')
         record_audio("command.wav")
         matched = verify_speaker("command.wav")
         
